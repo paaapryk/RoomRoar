@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" style="height: auto;" class="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | General UI</title>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/reservationDetails.css">
+    <link rel="stylesheet" href="/css/screenOverflow.css">
+</head>
+
+<body class="layout-navbar-fixed layout-footer-fixed" style="height: auto;">
+<div class="wrapper">
+    <nav class="main-header navbar navbar-expand navbar-light bg-dark">
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="clock" role="button"></a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <a href="/screen/room" class="brand-link bg-warning bg-dark">
+        <img src="/image/RoomRoarB.png" alt="AdminLTE Logo" class="brand-image">
+    </a>
+
+    <div class="content-wrapper" style="margin-left: 0; min-height: 1265px;">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <!-- Nazwa Sali i Tytuł Spotkania -->
+                    <div class="col-sm-9">
+                        <h1 th:text="${room.roomName}">Nazwa Sali Konferencyjnej</h1>
+                        <h5 th:text="${reservation.title} + ' - szczegóły'"></h5>
+                    </div>
+                    <!-- Przycisk Powrót do Widoku Sali -->
+                    <div class="col-sm-3 text-right">
+                        <a th:href="@{/screen/room/{id}(id=${room.getRoomId()})}" class="btn btn-block btn-outline-primary mt-2">Wróć do kalendarza</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="cards-container">
+                    <!-- Informacje o sali -->
+                    <div class="card card-teal">
+                        <div class="card-header">
+                            <h3 class="card-title">Informacje o Sali</h3>
+                        </div>
+                        <div class="card-body room-details">
+                            <p><span class="label">Nazwa sali:</span> <span class="value" th:text="${room.roomName}"></span></p>
+                            <p><span class="label">Ilość miejsc:</span> <span class="value" th:text="${room.capacity}"></span></p>
+                            <p><span class="label">Wyposażenie:</span>
+                            <ul>
+                                <li th:each="item : ${equipment}" th:text="${item.itemName}"></li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Szczegóły rezerwacji -->
+                    <div class="card card-teal">
+                        <div class="card-header">
+                            <h3 class="card-title">Informacje o Rezerwacji</h3>
+                        </div>
+                        <div class="card-body room-details">
+                            <p><span class="label">Tytuł:</span> <span class="value" th:text="${reservation.title}"></span></p>
+                            <p><span class="label">Opis:</span> <span class="value" th:text="${reservation.description}"></span></p>
+                            <p><span class="label">Start:</span> <span class="value" th:text="${#temporals.format(reservation.startTime, 'yyyy-MM-dd HH:mm')}"></span></p>
+                            <p><span class="label">Koniec:</span> <span class="value" th:text="${#temporals.format(reservation.endTime, 'yyyy-MM-dd HH:mm')}"></span></p>
+                            <p><span class="label">Utworzona przez:</span> <span class="value" th:text="${user.firstName} + ' ' + ${user.lastName}"></span></p>
+                            <p><span class="label">Data utworzenia:</span> <span class="value" th:text="${#temporals.format(reservation.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Uczestnicy -->
+                    <div class="card card-teal">
+                        <div class="card-header">
+                            <h3 class="card-title">Uczestnicy</h3>
+                        </div>
+                        <div class="card-body room-details">
+                            <ul>
+                                <li th:each="participant : ${participants}" th:text="${participant.user.firstName} + ' ' + ${participant.user.lastName}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Goście -->
+                    <div class="card card-teal" th:if="${guests.size() > 0}">
+                        <div class="card-header">
+                            <h3 class="card-title">Goście</h3>
+                        </div>
+                        <div class="card-body room-details">
+                            <ul>
+                                <li th:each="guest : ${guests}" th:text="${guest.fullname}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer text-sm" style="margin-left: 0; width: 100%;">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 0.0.1
+        </div>
+        <strong>© 2023 RoomRoar.</strong> All rights reserved.
+    </footer>
+    <div id="sidebar-overlay"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/js/adminlte.min.js"></script>
+
+<script src="/js/clock.js"></script>
+
+</body>
+</html>

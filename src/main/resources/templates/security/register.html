@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Register - Conference Room Reservation</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- AdminLTE -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.0-rc.5/css/adminlte.min.css">
+</head>
+<body class="hold-transition register-page">
+
+<div class="register-box">
+    <div class="register-logo">
+        <img src="../image/RoomRoarS.png" alt="AdminLTE Logo" class="brand-image">
+    </div>
+
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="register-box-msg">Register a new membership</p>
+
+            <!-- Formularz rejestracji -->
+            <form th:action="@{/register}" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="First name" name="firstName">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Last name" name="lastName">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Email" name="email">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Password" name="password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Confirm password" name="confirmPassword">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <!-- /Formularz rejestracji -->
+
+            <!-- Dodanie linku do strony logowania -->
+            <p class="mt-2 mb-1">
+                <a href="/login" class="text-center">I already have a membership</a>
+            </p>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+    <div class="container text-center">
+        <p class="small text-muted">&copy; 2023 RoomRoar. All rights reserved.</p>
+    </div>
+</div>
+<!-- /.register-box -->
+
+
+<!-- Skrypty Bootstrap i AdminLTE -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.0-rc.5/js/adminlte.min.js"></script>
+
+</body>
+</html>

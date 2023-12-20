@@ -1,0 +1,9 @@
+.room-details {
+    max-height: 298px; /* Ustaw maksymalną wysokość */
+    overflow-y: auto; /* Włącz przewijanie pionowe, jeśli zawartość przekracza maksymalną wysokość */
+}
+
+.reservation-details {
+    max-height: 500px; /* Ustaw maksymalną wysokość */
+    overflow-y: auto; /* Włącz przewijanie pionowe, jeśli zawartość przekracza maksymalną wysokość */
+}

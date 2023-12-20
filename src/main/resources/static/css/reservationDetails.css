@@ -1,0 +1,20 @@
+.label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.value {
+    font-weight: normal;
+    color: #555;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Odstęp między kartami */
+}
+
+.card {
+    flex: 1;
+    min-width: 300px; /* Minimalna szerokość karty */
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" style="height: auto;" class="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | General UI</title>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/main.min.css">
+    <link rel="stylesheet" href="/css/calendar.css">
+    <link rel="stylesheet" href="/css/screenOverflow.css">
+
+    <style>
+        #calendar {
+
+            max-width: 690px; /* Zmniejsz szerokość */
+            margin: auto;
+        }
+    </style>
+    <script src="/js/main.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let roomId = window.location.pathname.split("/").pop();
+            let calendarEl = document.getElementById('calendar');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                },
+                eventDidMount: function (info) {
+                    // Stylowanie dla wszystkich wydarzeń
+                    info.el.style.backgroundColor = '#ffc107'; // lub inny kolor
+                    info.el.style.color = 'black'; // kolor tekstu
+                    let links = info.el.getElementsByTagName('a');
+                    for (let link of links) {
+                        link.style.color = 'black'; // Zmiana koloru linków na czarny
+                    }
+                },
+                initialDate: new Date(),
+                navLinks: true,
+
+                dayMaxEvents: true,
+                events: '/api/reservations/events?roomId=' + roomId, // URL do Twojego API
+                eventContent: function(arg) {
+                    // Tworzy element link (a) z zawijaniem tekstu
+                    let anchor = document.createElement('a');
+                    anchor.href = `/screen/room/details/${arg.event.id}`;
+                    anchor.textContent = arg.event.title;
+                    anchor.classList.add('fc-event-title-wrap'); // Dodaje klasę dla zawijania tekstu
+                    return { domNodes: [anchor] };
+                },
+            });
+            calendar.render();
+        });
+    </script>
+</head>
+
+<body class="layout-navbar-fixed layout-footer-fixed" style="height: auto;">
+<div class="wrapper">
+    <nav class="main-header navbar navbar-expand navbar-light bg-dark">
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="clock" role="button"></a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <a href="/screen/room" class="brand-link bg-warning bg-dark">
+        <img src="/image/RoomRoarB.png" alt="AdminLTE Logo" class="brand-image">
+    </a>
+
+    <div class="content-wrapper" style="margin-left: 0; min-height: 1265px;">
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title" th:text="${room.roomName}">Nazwa Sali</h3>
+                            </div>
+                            <div class="card-body room-details">
+                                <h5><p th:text="'Ilość miejsc: ' + ${room.capacity}">Pojemność</p></h5>
+                                <h5>Wyposażenie:</h5>
+                                <ul>
+                                    <li th:each="equipment : ${room.equipment}" th:text="${equipment.itemName}">Nazwa
+                                        Wyposażenia
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card card-info" th:if="${nextReservation != null}"
+                             data-end-time="${#temporals.format(nextReservation.endTime, 'yyyy-MM-dd HH:mm:ss')}">
+                            <div class="card-header text-center">
+                                <h3 class="card-title">Najbliższe spotkanie</h3>
+                            </div>
+                            <div class="card-body">
+                                <div th:if="${nextReservation != null}">
+                                    <p class="mb-2">
+                                        <strong>Tytuł:</strong>
+                                        <span th:text="${nextReservation.getTitle()}"></span>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Rozpoczęcie spotkania:</strong>
+                                        <span th:text="${#temporals.format(nextReservation.startTime, 'yyyy-MM-dd HH:mm')}"></span>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Koniec spotkania:</strong>
+                                        <span th:text="${#temporals.format(nextReservation.endTime, 'yyyy-MM-dd HH:mm')}"></span>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Organizator:</strong>
+                                        <span th:text="${nextReservation.user.firstName + ' ' + nextReservation.user.lastName}"></span>
+                                    </p>
+                                </div>
+                                <p class="mb-4">
+                                <span th:if="${nextReservation == null}" class="text-muted">Brak nadchodzących rezerwacji</span>
+                                </p>
+
+                            </div>
+                            <a th:if="${nextReservation != null}"
+                               th:href="@{/screen/room/details/{id}(id=${nextReservation.reservationId})}"
+                               class="btn btn-block btn-outline-primary">Szczegóły spotkania</a>
+                        </div>
+
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-8">
+                        <div class="card card-primary">
+                            <div class="card-body p-0 mb-0 pl-0 pr-0">
+                                <!-- THE CALENDAR -->
+                                <div id="calendar"></div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+    </div>
+
+    <footer class="main-footer text-sm" style="margin-left: 0; width: 100%;">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 0.0.1
+        </div>
+        <strong>© 2023 RoomRoar.</strong> All rights reserved.
+    </footer>
+    <div id="sidebar-overlay"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/js/adminlte.min.js"></script>
+<script src="/js/clock.js"></script>
+
+
+</body>
+</html>

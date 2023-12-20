@@ -1,0 +1,11 @@
+.fc .fc-button-primary {
+    background-color: #ffc107; /* Zmiana koloru tła */
+    color: black; /* Zmiana koloru tekstu */
+    border-color: black; /* Zmiana koloru obramowania */
+}
+
+.fc-event-title-wrap {
+    white-space: nowrap; /* Zapobiega zawijaniu tekstu */
+    overflow: hidden; /* Ukrywa tekst, który wykracza poza obszar */
+    text-overflow: ellipsis; /* Dodaje trzy kropki, gdy tekst jest obcięty */
+}
