@@ -2,7 +2,6 @@ package pl.kurczoba.role;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import pl.kurczoba.users.UserRole;
 
 @Component
 public class RoleLoader implements CommandLineRunner {

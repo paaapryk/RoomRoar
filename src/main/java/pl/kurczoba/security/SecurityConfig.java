@@ -24,10 +24,15 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login") // przykładowa strona logowania OAuth2
+                        .defaultSuccessUrl("/user/dashboard", true)
+                )
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/user/dashboard", true)
-                );
+        );
+
 
         return http.build();
     }

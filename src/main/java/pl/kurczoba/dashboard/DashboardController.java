@@ -18,7 +18,7 @@ public class DashboardController{
         this.roomRepository = roomRepository;
     }
 
-    @Secured("ROLE_USER")
+//    @Secured("ROLE_USER")
     @GetMapping("/user/dashboard")
     public String showCalendar(Model model) {
         List<Room> conferenceRooms = roomRepository.findAll();

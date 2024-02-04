@@ -1,7 +1,6 @@
 package pl.kurczoba.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.kurczoba.users.UserRole;
 
 import java.util.Optional;
 
